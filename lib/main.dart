@@ -87,19 +87,12 @@ class HomePage extends StatelessWidget {
     if (state.selectedList == SELECTED_LIST.Movies) {
       title = "Movies";
     } else if (state.selectedList == SELECTED_LIST.Music) {
-      title = "Music";
+      title = "Music ";
     } else {
-      title = "Books";
+      title = "Books ";
     }
     return Row(
       children: <Widget>[
-        SizedBox(
-          width: 50,
-        ),
-        Text(title),
-        SizedBox(
-          width: 50,
-        ),
         FlatButton(
           onPressed: () {
             state.changeList(SELECTED_LIST.Books);
@@ -141,6 +134,16 @@ class HomePage extends StatelessWidget {
               Text("Movies"),
             ],
           ),
+        ),
+        SizedBox(
+          width: 100,
+        ),
+        Text(
+          title,
+          style: TextStyle(color: Colors.lightGreen, fontSize: 120),
+        ),
+        SizedBox(
+          width: 50,
         ),
       ],
     );

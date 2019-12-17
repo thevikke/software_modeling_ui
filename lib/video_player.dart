@@ -1,6 +1,10 @@
 // VideoWidget(
 //               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:software_modeling_ui/state.dart';
+import 'package:software_modeling_ui/urls.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -53,40 +57,59 @@ class AspectRatioVideoState extends State<AspectRatioVideo> {
   @override
   Widget build(BuildContext context) {
     if (initialized) {
-      return Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width / 1.5,
-          height: MediaQuery.of(context).size.height / 1.2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Center(
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: VideoPlayer(controller),
-                ),
-              ),
-              isPaused
-                  ? IconButton(
-                      icon: Icon(Icons.play_arrow),
-                      iconSize: 50,
-                      onPressed: () {
-                        controller.play();
-                        setState(() {
-                          isPaused = false;
-                        });
-                      },
-                    )
-                  : IconButton(
-                      onPressed: () {
-                        controller.pause();
-                        setState(() {
-                          isPaused = true;
-                        });
-                      },
-                      icon: Icon(Icons.pause),
+      return Consumer<AppState>(
+        builder: (_, state, __) => Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            height: MediaQuery.of(context).size.height / 1.2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Center(
+                  child: Stack(children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: VideoPlayer(controller),
                     ),
-            ],
+                    state.userType == USER_TYPE.SUBSCRIPTION_USER
+                        ? Container()
+                        : Positioned(
+                            right: 50,
+                            bottom: 20,
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            height: 200,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: adURls.length,
+                              itemBuilder: (context, index) {
+                                return Image.network(adURls[index]);
+                              },
+                            ),
+                          )
+                  ]),
+                ),
+                isPaused
+                    ? IconButton(
+                        icon: Icon(Icons.play_arrow),
+                        iconSize: 50,
+                        onPressed: () {
+                          controller.play();
+                          setState(() {
+                            isPaused = false;
+                          });
+                        },
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          controller.pause();
+                          setState(() {
+                            isPaused = true;
+                          });
+                        },
+                        icon: Icon(Icons.pause),
+                      ),
+              ],
+            ),
           ),
         ),
       );

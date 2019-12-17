@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:software_modeling_ui/library_page.dart';
 import 'package:software_modeling_ui/start_page.dart';
 import 'package:software_modeling_ui/urls.dart';
+import 'package:software_modeling_ui/user_settings_page.dart';
 import 'items_list.dart';
 
 import 'state.dart';
@@ -41,7 +42,23 @@ class HomePage extends StatelessWidget {
         builder: (_, state, __) => Scaffold(
           appBar: AppBar(
             title: _headerItems(state, context),
-            actions: <Widget>[],
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => UserSettingsPage()));
+                },
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.settings),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text("Settings"),
+                  ],
+                ),
+              ),
+            ],
           ),
           drawer: Drawer(
             child: state.userType != USER_TYPE.OLD_USER

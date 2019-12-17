@@ -147,6 +147,7 @@ class _ItemsListState extends State<ItemsList> {
           iconSize: 50,
           icon: Icon(Icons.cloud_download),
           onPressed: () {
+            Navigator.of(context).pop();
             Scaffold.of(context).showSnackBar(SnackBar(
               action: SnackBarAction(
                 label: 'OK',

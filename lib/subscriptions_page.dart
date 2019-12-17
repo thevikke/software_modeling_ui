@@ -105,7 +105,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               });
             },
             onTap: () {},
-            decoration: InputDecoration.collapsed(
+            decoration: InputDecoration(
               hintText: "Search with id or name",
             ),
           ),
@@ -117,19 +117,19 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   Widget _buildDialog() {
     return Column(children: <Widget>[
       TextField(
-        decoration: new InputDecoration.collapsed(hintText: 'ID'),
+        decoration: new InputDecoration(hintText: 'ID'),
         controller: myController1,
       ),
       TextField(
-        decoration: new InputDecoration.collapsed(hintText: 'Name'),
+        decoration: new InputDecoration(hintText: 'Name'),
         controller: myController2,
       ),
       TextField(
-        decoration: new InputDecoration.collapsed(hintText: 'Adress'),
+        decoration: new InputDecoration(hintText: 'Adress'),
         controller: myController3,
       ),
       TextField(
-        decoration: new InputDecoration.collapsed(hintText: 'Number'),
+        decoration: new InputDecoration(hintText: 'Number'),
         controller: myController4,
       ),
       Row(

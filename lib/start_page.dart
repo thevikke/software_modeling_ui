@@ -93,7 +93,7 @@ class StartPage extends StatelessWidget {
                     },
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.person),
+                        Icon(Icons.priority_high),
                         SizedBox(
                           width: 5,
                         ),
@@ -108,7 +108,7 @@ class StartPage extends StatelessWidget {
                     },
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.person),
+                        Icon(Icons.subscriptions),
                         SizedBox(
                           width: 5,
                         ),

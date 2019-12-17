@@ -55,27 +55,39 @@ class AspectRatioVideoState extends State<AspectRatioVideo> {
     if (initialized) {
       return Center(
         child: Container(
-          width: 300,
-          height: 200,
-          child: Stack(children: [
-            Center(
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: VideoPlayer(controller),
+          width: MediaQuery.of(context).size.width / 1.5,
+          height: MediaQuery.of(context).size.height / 1.2,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Center(
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: VideoPlayer(controller),
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                if (isPaused) {
-                  controller.play();
-                  isPaused = false;
-                } else {
-                  controller.pause();
-                  isPaused = true;
-                }
-              },
-            ),
-          ]),
+              isPaused
+                  ? IconButton(
+                      icon: Icon(Icons.play_arrow),
+                      iconSize: 50,
+                      onPressed: () {
+                        controller.play();
+                        setState(() {
+                          isPaused = false;
+                        });
+                      },
+                    )
+                  : IconButton(
+                      onPressed: () {
+                        controller.pause();
+                        setState(() {
+                          isPaused = true;
+                        });
+                      },
+                      icon: Icon(Icons.pause),
+                    ),
+            ],
+          ),
         ),
       );
     } else {

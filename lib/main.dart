@@ -10,7 +10,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:software_modeling_ui/library_page.dart';
+import 'package:software_modeling_ui/start_page.dart';
 import 'package:software_modeling_ui/urls.dart';
+import 'items_list.dart';
 
 import 'state.dart';
 
@@ -23,7 +26,7 @@ void main() {
           darkTheme: ThemeData(
             brightness: Brightness.dark,
           ),
-          home: HomePage()),
+          home: StartPage()),
     ),
   );
 }
@@ -37,11 +40,13 @@ class HomePage extends StatelessWidget {
       child: Consumer<AppState>(
         builder: (_, state, __) => Scaffold(
           appBar: AppBar(
-            title: _headerItems(state),
+            title: _headerItems(state, context),
             actions: <Widget>[],
           ),
           drawer: Drawer(
-            child: _drawerItems(state),
+            child: state.userType != USER_TYPE.OLD_USER
+                ? Container()
+                : _drawerItems(context, state),
           ),
           body: ItemsList(
             items: _listItems(state.selectedList),
@@ -61,12 +66,15 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Widget _drawerItems(AppState state) {
+  Widget _drawerItems(BuildContext context, AppState state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         FlatButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => LibraryPage()));
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -82,7 +90,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _headerItems(AppState state) {
+  Widget _headerItems(AppState state, BuildContext context) {
     String title = "";
     if (state.selectedList == SELECTED_LIST.Movies) {
       title = "Movies";
@@ -95,32 +103,46 @@ class HomePage extends StatelessWidget {
       children: <Widget>[
         FlatButton(
           onPressed: () {
-            state.changeList(SELECTED_LIST.Books);
+            Navigator.of(context).pop();
           },
           child: Row(
             children: <Widget>[
-              Icon(Icons.book),
+              Icon(Icons.backspace),
               SizedBox(
                 width: 5,
               ),
-              Text("Books"),
+              Text("Back"),
             ],
           ),
         ),
-        FlatButton(
-          onPressed: () {
-            state.changeList(SELECTED_LIST.Music);
-          },
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.music_note),
-              SizedBox(
-                width: 5,
-              ),
-              Text("Music"),
-            ],
-          ),
-        ),
+        // FlatButton(
+        //   onPressed: () {
+        //     state.changeList(SELECTED_LIST.Books);
+        //   },
+        //   child: Row(
+        //     children: <Widget>[
+        //       Icon(Icons.book),
+        //       SizedBox(
+        //         width: 5,
+        //       ),
+        //       Text("Books"),
+        //     ],
+        //   ),
+        // ),
+        // FlatButton(
+        //   onPressed: () {
+        //     state.changeList(SELECTED_LIST.Music);
+        //   },
+        //   child: Row(
+        //     children: <Widget>[
+        //       Icon(Icons.music_note),
+        //       SizedBox(
+        //         width: 5,
+        //       ),
+        //       Text("Music"),
+        //     ],
+        //   ),
+        // ),
         FlatButton(
           onPressed: () {
             state.changeList(SELECTED_LIST.Movies);
@@ -147,28 +169,5 @@ class HomePage extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class ItemsList extends StatelessWidget {
-  const ItemsList({Key key, this.items}) : super(key: key);
-  final List<String> items;
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-        crossAxisCount: 8,
-        children: List.generate(items.length, (index) {
-          return Container(
-            child: Card(
-              color: Colors.grey[900],
-              child: Image.network(
-                    items[index],
-                    fit: BoxFit.contain,
-                  ) ??
-                  Image.network(
-                      "https://cdn.pixabay.com/photo/2013/07/12/12/58/tv-test-pattern-146649_960_720.png"),
-            ),
-          );
-        }));
   }
 }

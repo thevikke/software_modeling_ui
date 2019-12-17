@@ -13,5 +13,7 @@ class AppState with ChangeNotifier {
 
   void changeUserType(USER_TYPE newUserType) {
     userType = newUserType;
+    print(userType);
+    notifyListeners();
   }
 }

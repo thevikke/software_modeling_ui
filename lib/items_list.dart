@@ -30,7 +30,7 @@ class _ItemsListState extends State<ItemsList> {
   Widget build(BuildContext context) {
     return Consumer<AppState>(
       builder: (_, state, __) => GridView.count(
-          crossAxisCount: 8,
+          crossAxisCount: 6,
           children: List.generate(widget.items.length, (index) {
             return InkWell(
                 onTap: () {
@@ -157,7 +157,7 @@ class _ItemsListState extends State<ItemsList> {
               ),
               backgroundColor: Colors.black,
               content: Text(
-                "Video downloaded!",
+                "Video downloaded",
                 style: TextStyle(fontSize: 30, color: Colors.lightGreen),
               ),
             ));

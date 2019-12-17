@@ -4,6 +4,7 @@ import 'package:software_modeling_ui/ad_manager_page.dart';
 import 'package:software_modeling_ui/admin_page.dart';
 import 'package:software_modeling_ui/main.dart';
 import 'package:software_modeling_ui/state.dart';
+import 'package:software_modeling_ui/subscriptions_page.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -101,7 +102,10 @@ class StartPage extends StatelessWidget {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SubscriptionPage()));
+                    },
                     child: Row(
                       children: <Widget>[
                         Icon(Icons.person),

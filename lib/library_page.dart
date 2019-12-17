@@ -11,37 +11,40 @@ class LibraryPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Your collection"),
       ),
-      body: Consumer<AppState>(
-        builder: (_, state, __) => GridView.count(
-            crossAxisCount: 8,
-            children: List.generate(libraryURls.length, (index) {
-              return InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (ctxt) => new AlertDialog(
-                              title: _buildVideoDialog(context),
-                            ));
-                  },
-                  child:
-                      Stack(alignment: AlignmentDirectional.center, children: [
-                    Container(
-                      child: Card(
-                        color: Colors.grey[800],
-                        child: Image.network(
-                              libraryURls[index],
-                              fit: BoxFit.contain,
-                            ) ??
-                            Image.network(
-                                "https://cdn.pixabay.com/photo/2013/07/12/12/58/tv-test-pattern-146649_960_720.png"),
-                      ),
-                    ),
-                    Icon(
-                      Icons.favorite,
-                      size: 70,
-                    )
-                  ]));
-            })),
+      body: Builder(
+        builder: (context) => Consumer<AppState>(
+          builder: (_, state, __) => GridView.count(
+              crossAxisCount: 8,
+              children: List.generate(libraryURls.length, (index) {
+                return InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (ctxt) => new AlertDialog(
+                                title: _buildVideoDialog(context),
+                              ));
+                    },
+                    child: Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Container(
+                            child: Card(
+                              color: Colors.grey[800],
+                              child: Image.network(
+                                    libraryURls[index],
+                                    fit: BoxFit.contain,
+                                  ) ??
+                                  Image.network(
+                                      "https://cdn.pixabay.com/photo/2013/07/12/12/58/tv-test-pattern-146649_960_720.png"),
+                            ),
+                          ),
+                          Icon(
+                            Icons.favorite,
+                            size: 70,
+                          )
+                        ]));
+              })),
+        ),
       ),
     );
   }
@@ -55,17 +58,11 @@ class LibraryPage extends StatelessWidget {
           iconSize: 50,
           icon: Icon(Icons.cloud_download),
           onPressed: () {
+            Navigator.of(context).pop();
             Scaffold.of(context).showSnackBar(SnackBar(
-              action: SnackBarAction(
-                label: 'OK',
-                textColor: Colors.white,
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
               backgroundColor: Colors.black,
               content: Text(
-                "Video downloaded!",
+                "Video downloaded",
                 style: TextStyle(fontSize: 30, color: Colors.lightGreen),
               ),
             ));

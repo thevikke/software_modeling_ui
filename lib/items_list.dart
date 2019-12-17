@@ -149,13 +149,6 @@ class _ItemsListState extends State<ItemsList> {
           onPressed: () {
             Navigator.of(context).pop();
             Scaffold.of(context).showSnackBar(SnackBar(
-              action: SnackBarAction(
-                label: 'OK',
-                textColor: Colors.white,
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
               backgroundColor: Colors.black,
               content: Text(
                 "Video downloaded",

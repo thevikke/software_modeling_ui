@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text("Settings"),
+                    Text("Subscriptions"),
                   ],
                 ),
               ),
@@ -65,8 +65,10 @@ class HomePage extends StatelessWidget {
                 ? Container()
                 : _drawerItems(context, state),
           ),
-          body: ItemsList(
-            items: _listItems(state.selectedList),
+          body: Builder(
+            builder: (context) => ItemsList(
+              items: _listItems(state.selectedList),
+            ),
           ),
         ),
       ),

@@ -50,63 +50,108 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       appBar: AppBar(
         title: Text("Manage subscriptions"),
       ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          width: MediaQuery.of(context).size.width / 2,
-          child: FloatingSearchBar.builder(
-            itemCount: searchResults.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                      " User ID: ${searchResults[index].id}   Name: ${searchResults[index].name}"),
-                  FlatButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (ctxt) => new AlertDialog(
-                                title: _buildDialog(),
-                              ));
-                      myController1.text = searchResults[index].id;
-                      myController2.text = searchResults[index].name;
-                      myController3.text = searchResults[index].address;
-                      myController4.text =
-                          searchResults[index].phoneNumber.toString();
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(Icons.edit),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("Edit"),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-            onChanged: (String value) {
-              if (value.isEmpty) {
-                setState(() {
-                  searchResults.removeRange(0, searchResults.length);
-                });
-                return;
-              }
-
-              userList.forEach((userDetail) {
-                if (userDetail.name.contains(value)) {
+      body: Builder(
+        builder: (context) => Center(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            width: MediaQuery.of(context).size.width / 2,
+            child: FloatingSearchBar.builder(
+              leading: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
                   setState(() {
-                    searchResults.add(userDetail);
+                    searchResults.add(User(mockName(), mockString(),
+                        mockInteger(), "${mockName()}street"));
                   });
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.black,
+                    content: Text(
+                      "Subscription added",
+                      style: TextStyle(fontSize: 30, color: Colors.lightGreen),
+                    ),
+                  ));
+                },
+              ),
+              itemCount: searchResults.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                        " User ID: ${searchResults[index].id}   Name: ${searchResults[index].name}"),
+                    FlatButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (ctxt) => new AlertDialog(
+                                  title: _buildDialog(),
+                                ));
+                        myController1.text = searchResults[index].id;
+                        myController2.text = searchResults[index].name;
+                        myController3.text = searchResults[index].address;
+                        myController4.text =
+                            searchResults[index].phoneNumber.toString();
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.edit),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("Edit"),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          searchResults.removeAt(index);
+                        });
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.black,
+                          content: Text(
+                            "Subscription removed",
+                            style: TextStyle(
+                                fontSize: 30, color: Colors.lightGreen),
+                          ),
+                        ));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.delete),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("Delete"),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+              onChanged: (String value) {
+                if (value.isEmpty) {
+                  setState(() {
+                    searchResults.removeRange(0, searchResults.length);
+                  });
+                  return;
                 }
-              });
-            },
-            onTap: () {},
-            decoration: InputDecoration(
-              hintText: "Search with id or name",
+
+                userList.forEach((userDetail) {
+                  if (userDetail.name.contains(value)) {
+                    setState(() {
+                      searchResults.add(userDetail);
+                    });
+                  }
+                });
+              },
+              onTap: () {},
+              decoration: InputDecoration(
+                hintText: "Search with id or name",
+              ),
             ),
           ),
         ),
